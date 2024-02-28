@@ -34,7 +34,6 @@ public class ReviewLikeController {
     public ResponseEntity<Integer> getReviewLikesCount(@PathVariable Long reviewId) {
         int reviewLikesCount = reviewLikesService.getReviewLikesCount(reviewId);
         return ResponseEntity.status(200).body(reviewLikesCount);
-
     }
 
 }

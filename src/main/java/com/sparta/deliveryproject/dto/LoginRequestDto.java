@@ -1,7 +1,5 @@
 package com.sparta.deliveryproject.dto;
 
-
-
 import lombok.Getter;
 import lombok.Setter;
 
