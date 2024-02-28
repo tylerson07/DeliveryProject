@@ -83,5 +83,6 @@ public class OrderService {
             user.incrementSales(orders.getTotalPrice());
         }
         clearOrders(user);
+        userRepository.save(user);
     }
 }

@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.Collection;
@@ -76,6 +77,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 
     public void incrementSales(Long totalPrice) {
         this.orderCount++;
