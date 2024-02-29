@@ -73,6 +73,7 @@ public class OrderService {
     @Transactional
     public void purchaseOrders(User user) {
         List<Orders> ordersList = orderRepository.findByUserUserID(user.getUserID());
+
         for (Orders orders : ordersList) {
             Menu menu = menuRepository.findById(orders.getMenu().getId()).orElseThrow();
             menu.incrementSales(orders.getQuantity());
@@ -82,6 +83,7 @@ public class OrderService {
 
             user.incrementSales(orders.getTotalPrice());
         }
+
         clearOrders(user);
         userRepository.save(user);
     }

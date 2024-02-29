@@ -44,18 +44,9 @@ public class MenuService {
                 () -> new NullPointerException("해당 id의 매장이 없습니다.")
         );
         List<Menu> menuList = menuRepository.findAllByStoreOrderBySalesCountDesc(store);
-        if (menuList.isEmpty()) {
-            throw new NullPointerException("해당 매장에 메뉴가 없습니다.");
-        } else if (menuList.size() <= 3) {
-            return menuList.stream().map(MenuResponseDto::new).toList();
-        } else {
-            List<MenuResponseDto> returnValue = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                returnValue.add(new MenuResponseDto(menuList.get(i)));
-            }
-            return returnValue;
-        }
+        return substringList(menuList);
     }
+
 
     @Transactional(readOnly = true)
     public List<MenuResponseDto> getTopThreeCountsMenuListByStore(Long storeId) {
@@ -63,17 +54,7 @@ public class MenuService {
                 () -> new NullPointerException("해당 id의 매장이 없습니다.")
         );
         List<Menu> menuList = menuRepository.findAllByStoreOrderByTotalSalesDesc(store);
-        if (menuList.isEmpty()) {
-            throw new NullPointerException("해당 매장에 메뉴가 없습니다.");
-        } else if (menuList.size() <= 3) {
-            return menuList.stream().map(MenuResponseDto::new).toList();
-        } else {
-            List<MenuResponseDto> returnValue = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                returnValue.add(new MenuResponseDto(menuList.get(i)));
-            }
-            return returnValue;
-        }
+        return substringList(menuList);
     }
 
     public void createMenu(Long storeId, MenuRequestDto menuRequestDto, User userDetails) throws DuplicatedMenuException {
@@ -103,9 +84,7 @@ public class MenuService {
     }
 
     public void editMenu(Long menuId, MenuRequestDto menuRequestDto, User userDetails) throws DuplicatedMenuException {
-        Menu menu = menuRepository.findById(menuId).orElseThrow(
-                () -> new NullPointerException("해당 id의 메뉴가 없습니다.")
-        );
+        Menu menu = getMenuById(menuId);
 
         Store store = storeRepository.findById(menu.getStore().getId()).orElseThrow(
                 () -> new NullPointerException("해당 id의 매장이 없습니다.")
@@ -132,9 +111,7 @@ public class MenuService {
     }
 
     public void deleteMenu(Long menuId, User userDetails) {
-        Menu menu = menuRepository.findById(menuId).orElseThrow(
-                () -> new NullPointerException("해당 id의 메뉴가 없습니다.")
-        );
+        Menu menu = getMenuById(menuId);
 
         Store store = storeRepository.findById(menu.getStore().getId()).orElseThrow(
                 () -> new NullPointerException("해당 id의 매장이 없습니다.")
@@ -146,5 +123,23 @@ public class MenuService {
         menuRepository.delete(menu);
     }
 
+    private List<MenuResponseDto> substringList(List<Menu> menuList) {
+        if (menuList.isEmpty()) {
+            throw new NullPointerException("해당 매장에 메뉴가 없습니다.");
+        } else if (menuList.size() <= 3) {
+            return menuList.stream().map(MenuResponseDto::new).toList();
+        } else {
+            List<MenuResponseDto> returnValue = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                returnValue.add(new MenuResponseDto(menuList.get(i)));
+            }
+            return returnValue;
+        }
+    }
 
+    private Menu getMenuById(Long menuId) {
+        return menuRepository.findById(menuId).orElseThrow(
+                () -> new NullPointerException("해당 id의 메뉴가 없습니다.")
+        );
+    }
 }

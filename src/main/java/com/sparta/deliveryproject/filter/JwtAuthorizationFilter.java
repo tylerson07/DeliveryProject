@@ -1,8 +1,6 @@
 package com.sparta.deliveryproject.filter;
 
 
-
-import com.sparta.deliveryproject.service.JwtUtil;
 import com.sparta.deliveryproject.security.UserDetailsServiceImpl;
 import com.sparta.deliveryproject.service.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -35,7 +33,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
 
-
         if (!req.getRequestURI().contains("/user/signup")) {
             String tokenValue = jwtUtil.getJwtFromHeader(req);
 
@@ -57,8 +54,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             }
 
         }
-
-
 
         filterChain.doFilter(req, res);
     }

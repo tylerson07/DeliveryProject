@@ -42,37 +42,13 @@ public class StoreService {
     @Transactional(readOnly = true)
     public List<StoreResponseDto> getTopCountStoreList(User user) {
         List<Store> storeList = storeRepository.findAllByUserOrderByTotalSalesDesc(user);
-        if (storeList.isEmpty()) {
-            throw new IllegalArgumentException("아직 매장이 없습니다..");
-        } else if (storeList.size() <= 3) {
-            return storeList.stream()
-                    .map(StoreResponseDto::new)
-                    .toList();
-        } else {
-            List<StoreResponseDto> returnValue = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                returnValue.add(new StoreResponseDto(storeList.get(i)));
-            }
-            return returnValue;
-        }
+        return substringList(storeList);
     }
 
     @Transactional(readOnly = true)
     public List<StoreResponseDto> getTopSalesStoreList(User user) {
         List<Store> storeList = storeRepository.findAllByUserOrderByOrderCountDesc(user);
-        if (storeList.isEmpty()) {
-            throw new IllegalArgumentException("아직 매장이 없습니다.");
-        } else if (storeList.size() <= 3) {
-            return storeList.stream()
-                    .map(StoreResponseDto::new)
-                    .toList();
-        } else {
-            List<StoreResponseDto> returnValue = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                returnValue.add(new StoreResponseDto(storeList.get(i)));
-            }
-            return returnValue;
-        }
+        return substringList(storeList);
     }
 
     public void createStore(StoreRequestDto storeRequestDto, User user) {
@@ -111,5 +87,19 @@ public class StoreService {
 
         menuRepository.deleteAllByStore(store);
         storeRepository.delete(store);
+    }
+
+    private List<StoreResponseDto> substringList(List<Store> storeList) {
+        if (storeList.isEmpty()) {
+            throw new NullPointerException("해당 매장에 메뉴가 없습니다.");
+        } else if (storeList.size() <= 3) {
+            return storeList.stream().map(StoreResponseDto::new).toList();
+        } else {
+            List<StoreResponseDto> returnValue = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                returnValue.add(new StoreResponseDto(storeList.get(i)));
+            }
+            return returnValue;
+        }
     }
 }
