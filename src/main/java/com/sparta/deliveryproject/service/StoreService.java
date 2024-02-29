@@ -16,18 +16,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class StoreService {
     private final StoreRepository storeRepository;
     private final MenuRepository menuRepository;
     private final CategoryRepository categoryRepository;
 
-    @Transactional(readOnly = true)
-    public List<StoreResponseDto> getStoreListByCategory(String categoryName) {
-        Category category = categoryRepository.findByName(categoryName).orElseThrow(
+    public List<StoreResponseDto> getStoreListByCategory(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId).orElseThrow(
                 () -> new NullPointerException("해당하는 카테고리가 없습니다.")
         );
+
         List<Store> storeList = storeRepository.findAllByCategory(category);
 
         if (storeList.isEmpty()) {
@@ -39,18 +39,17 @@ public class StoreService {
                 .toList();
     }
 
-    @Transactional(readOnly = true)
     public List<StoreResponseDto> getTopCountStoreList(User user) {
         List<Store> storeList = storeRepository.findAllByUserOrderByTotalSalesDesc(user);
         return substringList(storeList);
     }
 
-    @Transactional(readOnly = true)
     public List<StoreResponseDto> getTopSalesStoreList(User user) {
         List<Store> storeList = storeRepository.findAllByUserOrderByOrderCountDesc(user);
         return substringList(storeList);
     }
 
+    @Transactional
     public void createStore(StoreRequestDto storeRequestDto, User user) {
         Category category = categoryRepository.findByName(storeRequestDto.getCategory()).orElseThrow(
                 () -> new NullPointerException("해당하는 카테고리가 없습니다.")
@@ -60,6 +59,7 @@ public class StoreService {
         storeRepository.save(store);
     }
 
+    @Transactional
     public void editStore(Long id, StoreRequestDto storeRequestDto, User userDetails) {
         Category category = categoryRepository.findByName(storeRequestDto.getCategory()).orElseThrow(
                 () -> new NullPointerException("해당하는 카테고리가 없습니다.")
@@ -76,6 +76,7 @@ public class StoreService {
         store.edit(storeRequestDto, category);
     }
 
+    @Transactional
     public void deleteStore(Long id, User userDetails) {
         Store store = storeRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("해당 id의 store가 존재하지 않습니다.")

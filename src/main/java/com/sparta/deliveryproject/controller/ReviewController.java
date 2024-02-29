@@ -25,22 +25,19 @@ public class ReviewController {
 
     //리뷰등록
     @PostMapping()
-    public ResponseEntity<CommonResponseDto> review(@PathVariable Long menuId, @RequestBody ReviewRequestDto reviewRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public void review(@PathVariable Long menuId, @RequestBody ReviewRequestDto reviewRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         reviewService.review(reviewRequestDto, menuId, userDetails);
-        return ResponseEntity.status(200).body(new CommonResponseDto(200, "리뷰 등록 성공"));
     }
 
     @PutMapping("/{reviewId}")
-    public ResponseEntity<CommonResponseDto> updateReview(@PathVariable Long menuId, @PathVariable Long reviewId, @RequestBody ReviewRequestDto reviewRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public void updateReview(@PathVariable Long menuId, @PathVariable Long reviewId, @RequestBody ReviewRequestDto reviewRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         reviewService.updateReview(reviewRequestDto, menuId, reviewId, userDetails);
-        return ResponseEntity.status(200).body(new CommonResponseDto(200, "리뷰 수정 성공"));
     }
 
     //리뷰 삭제
     @DeleteMapping("/{reviewId}")
-    public ResponseEntity<CommonResponseDto> deleteReview(@PathVariable Long menuId, @PathVariable Long reviewId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public void deleteReview(@PathVariable Long menuId, @PathVariable Long reviewId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         reviewService.deleteReview(menuId, reviewId, userDetails);
-        return ResponseEntity.status(200).body(new CommonResponseDto(200, "리뷰 삭제 성공"));
     }
 
 }
