@@ -9,9 +9,6 @@ import java.util.List;
 
 public interface StoreRepository extends JpaRepository<Store, Long> {
     List<Store> findAllByCategory(Category category);
-
-    List<Store> findAllByUser(User user);
-
     List<Store> findAllByUserOrderByTotalSalesDesc(User user);
 
     List<Store> findAllByUserOrderByOrderCountDesc(User user);

@@ -1,11 +1,9 @@
 package com.sparta.deliveryproject.filter;
 
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.deliveryproject.dto.LoginRequestDto;
 import com.sparta.deliveryproject.entity.UserRoleEnum;
-import com.sparta.deliveryproject.service.JwtUtil;
 import com.sparta.deliveryproject.security.UserDetailsImpl;
 import com.sparta.deliveryproject.service.JwtUtil;
 import jakarta.servlet.FilterChain;
@@ -16,7 +14,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 import java.io.IOException;
+
 @Slf4j(topic = "로그인 및 JWT 생성")
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final JwtUtil jwtUtil;
@@ -25,6 +25,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.jwtUtil = jwtUtil;
         setFilterProcessesUrl("/api/user/login");
     }
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {

@@ -6,6 +6,7 @@ import com.sparta.deliveryproject.entity.Category;
 import com.sparta.deliveryproject.entity.Store;
 import com.sparta.deliveryproject.entity.User;
 import com.sparta.deliveryproject.repository.CategoryRepository;
+import com.sparta.deliveryproject.repository.MenuRepository;
 import com.sparta.deliveryproject.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StoreService {
     private final StoreRepository storeRepository;
+    private final MenuRepository menuRepository;
     private final CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
@@ -107,6 +109,7 @@ public class StoreService {
             throw new IllegalArgumentException("매장을 삭제할 수 있는 권한이 없습니다.");
         }
 
+        menuRepository.deleteAllByStore(store);
         storeRepository.delete(store);
     }
 }

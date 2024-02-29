@@ -11,4 +11,6 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
     List<Menu> findAllByStoreOrderBySalesCountDesc(Store store);
 
     List<Menu> findAllByStoreOrderByTotalSalesDesc(Store store);
+
+    void deleteAllByStore(Store store);
 }
