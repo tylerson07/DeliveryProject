@@ -1,8 +1,6 @@
 package com.sparta.deliveryproject.service;
 
-
 import com.sparta.deliveryproject.dto.ChangePasswordDto;
-import com.sparta.deliveryproject.dto.SignupRequestDto;
 import com.sparta.deliveryproject.dto.UserResponseDto;
 import com.sparta.deliveryproject.entity.User;
 import com.sparta.deliveryproject.entity.UserRoleEnum;
@@ -21,27 +19,34 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private static final String ADMIN_TOKEN = "rfq3wr4yqdiw";
+    private static final String ENTRE_TOKEN = "r4iqurqrr4oq";
 
-    String ADMIN_TOKEN = "2";
-    String ENTRE_TOKEN = "6";
+    public void signup(String email, String nickname, String password, String address, String authorityToken) {
+        String encodedPassword = passwordEncoder.encode(password);
 
-    public void signup(SignupRequestDto requestDto) {
-        String username = requestDto.getUsername();
-        String password = passwordEncoder.encode(requestDto.getPassword());
-        String address = requestDto.getAddress();
-        UserRoleEnum role = UserRoleEnum.USER;
-
-        if (userRepository.findByUsername(username).isPresent()) {
-            throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
+        if (userRepository.findByEmail(email).isPresent()) {
+            throw new IllegalArgumentException("이미 가입된 이메일입니다.");
+        } else if (userRepository.findByNickname(nickname).isPresent()) {
+            throw new IllegalArgumentException("이미 사용된 닉네임입니다.");
         }
 
-        if (ADMIN_TOKEN.equals(requestDto.getAuthorityToken())) {
-            role = UserRoleEnum.ADMIN;
-        } else if (ENTRE_TOKEN.equals(requestDto.getAuthorityToken())) {
-            role = UserRoleEnum.ENTRE;
+        UserRoleEnum userRoleEnum;
+
+        if (authorityToken == null) {
+            userRoleEnum = UserRoleEnum.USER;
+        } else {
+
+            userRoleEnum = switch (authorityToken) {
+                case ADMIN_TOKEN -> UserRoleEnum.ADMIN;
+                case ENTRE_TOKEN -> UserRoleEnum.ENTRE;
+                default ->
+                    throw new IllegalArgumentException("유효한 토큰이 아닙니다.");
+            };
+
         }
 
-        User user = new User(username, password, address, role);
+        User user = new User(email, nickname, encodedPassword, address, userRoleEnum);
         userRepository.save(user);
     }
 
@@ -65,7 +70,7 @@ public class UserService {
 
         if (user.getPassword().equals(changePasswordDto.getPrePassword())) {
             String encodedPassword = passwordEncoder.encode(changePasswordDto.getPostPassword());
-            user.changePassword(encodedPassword);
+            user.updatePassword(encodedPassword);
         }
 
         userRepository.save(user);

@@ -5,11 +5,14 @@ import com.sparta.deliveryproject.dto.SignupRequestDto;
 import com.sparta.deliveryproject.dto.UserResponseDto;
 import com.sparta.deliveryproject.security.UserDetailsImpl;
 import com.sparta.deliveryproject.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +26,20 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/public/users/signup")
-    public void signup(@RequestBody SignupRequestDto requestDto) {
-        userService.signup(requestDto);
+    public void signup(@RequestBody @Valid SignupRequestDto requestDto, BindingResult bindingResult) {
+        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+
+        if (!fieldErrors.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+
+            for (FieldError fieldError : fieldErrors) {
+                sb.append("\n").append(fieldError.getDefaultMessage());
+            }
+
+            throw new IllegalArgumentException("회원가입 정보 입력이 올바르지 않습니다." + sb);
+        }
+
+        userService.signup(requestDto.getEmail(), requestDto.getNickname(), requestDto.getPassword(), requestDto.getAddress(), requestDto.getAuthorityToken());
     }
 
     @Secured("ROLE_ADMIN")

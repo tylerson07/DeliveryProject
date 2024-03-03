@@ -81,7 +81,6 @@ public class OrderService {
             Store store = storeRepository.findById(menu.getStore().getId()).orElseThrow();
             store.incrementSales(orders.getTotalPrice());
 
-            user.incrementSales(orders.getTotalPrice());
         }
 
         clearOrders(user);
