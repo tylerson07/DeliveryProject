@@ -23,8 +23,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/public/users/signup")
-    public void signup(@RequestBody SignupRequestDto requestdto) {
-        userService.signup(requestdto);
+    public void signup(@RequestBody SignupRequestDto requestDto) {
+        userService.signup(requestDto);
     }
 
     @Secured("ROLE_ADMIN")

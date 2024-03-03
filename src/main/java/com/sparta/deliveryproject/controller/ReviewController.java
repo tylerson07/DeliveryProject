@@ -1,6 +1,5 @@
 package com.sparta.deliveryproject.controller;
 
-import com.sparta.deliveryproject.dto.CommonResponseDto;
 import com.sparta.deliveryproject.dto.ReviewListResponseDto;
 import com.sparta.deliveryproject.dto.ReviewRequestDto;
 import com.sparta.deliveryproject.security.UserDetailsImpl;
