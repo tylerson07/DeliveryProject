@@ -3,6 +3,7 @@ package com.sparta.deliveryproject.controller;
 import com.sparta.deliveryproject.dto.CategoryRequestDto;
 import com.sparta.deliveryproject.dto.CategoryResponseDto;
 import com.sparta.deliveryproject.service.CategoryService;
+import com.sparta.deliveryproject.service.CategoryServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
