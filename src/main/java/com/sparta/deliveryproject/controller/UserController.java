@@ -33,7 +33,7 @@ public class UserController {
             StringBuilder sb = new StringBuilder();
 
             for (FieldError fieldError : fieldErrors) {
-                sb.append("\n").append(fieldError.getDefaultMessage());
+                sb.append(fieldError.getDefaultMessage());
             }
 
             throw new IllegalArgumentException("회원가입 정보 입력이 올바르지 않습니다." + sb);
