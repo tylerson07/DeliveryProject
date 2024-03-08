@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalControllerAdvice {
     @ExceptionHandler({SQLIntegrityConstraintViolationException.class})
     public ResponseEntity<CommonResponseDto> SQLIntegrityConstraintViolationExceptionHandler() {
         CommonResponseDto commonResponseDto = new CommonResponseDto(400, "중복된 값이 있습니다.");
