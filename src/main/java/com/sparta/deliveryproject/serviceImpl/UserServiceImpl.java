@@ -1,11 +1,12 @@
 package com.sparta.deliveryproject.serviceImpl;
 
-import com.sparta.deliveryproject.requestDto.ChangePasswordDto;
-import com.sparta.deliveryproject.responseDto.UserResponseDto;
 import com.sparta.deliveryproject.entity.User;
 import com.sparta.deliveryproject.entity.UserRoleEnum;
 import com.sparta.deliveryproject.repository.UserRepository;
+import com.sparta.deliveryproject.requestDto.ChangePasswordDto;
+import com.sparta.deliveryproject.responseDto.UserResponseDto;
 import com.sparta.deliveryproject.security.UserDetailsImpl;
+import com.sparta.deliveryproject.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,13 +16,14 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private static final String ADMIN_TOKEN = "rfq3wr4yqdiw";
     private static final String ENTRE_TOKEN = "r4iqurqrr4oq";
 
+    @Override
     public void signup(String email, String nickname, String password, String address, String authorityToken) {
         String encodedPassword = passwordEncoder.encode(password);
 
@@ -40,8 +42,7 @@ public class UserService {
             userRoleEnum = switch (authorityToken) {
                 case ADMIN_TOKEN -> UserRoleEnum.ADMIN;
                 case ENTRE_TOKEN -> UserRoleEnum.ENTRE;
-                default ->
-                    throw new IllegalArgumentException("유효한 토큰이 아닙니다.");
+                default -> throw new IllegalArgumentException("유효한 토큰이 아닙니다.");
             };
 
         }
@@ -50,11 +51,12 @@ public class UserService {
         userRepository.save(user);
     }
 
-
+    @Override
     public List<UserResponseDto> getUsers() {
         return userRepository.findAll().stream().map(UserResponseDto::new).toList();
     }
 
+    @Override
     public void deleteUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new NullPointerException("해당 Id를 가진 유저는 존재하지 않습니다.")
@@ -65,6 +67,7 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
+    @Override
     public void changePassword(ChangePasswordDto changePasswordDto, UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
 

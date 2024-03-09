@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class SignupTest {
 
     @Autowired
-    UserService userService;
+    UserServiceImpl userServiceImpl;
 
     @Autowired
     UserRepository userRepository;
@@ -33,7 +33,7 @@ public class SignupTest {
                 "경기도 하남시 미사강변동로 19",
                 "r4iqurqrr4oq");
 
-        userService.signup(signupRequestDto.getEmail(), signupRequestDto.getNickname(), signupRequestDto.getPassword(), signupRequestDto.getAddress(), signupRequestDto.getAuthorityToken());
+        userServiceImpl.signup(signupRequestDto.getEmail(), signupRequestDto.getNickname(), signupRequestDto.getPassword(), signupRequestDto.getAddress(), signupRequestDto.getAuthorityToken());
 
         User user = userRepository.findByEmail("kudongku@gmail.com").orElseThrow(
                 () -> new IllegalArgumentException("저장이 안됨")
@@ -54,7 +54,7 @@ public class SignupTest {
 
         IllegalArgumentException e = assertThrows(
                 IllegalArgumentException.class,
-                () -> userService.signup(signupRequestDto.getEmail(), signupRequestDto.getNickname(), signupRequestDto.getPassword(), signupRequestDto.getAddress(), signupRequestDto.getAuthorityToken()));
+                () -> userServiceImpl.signup(signupRequestDto.getEmail(), signupRequestDto.getNickname(), signupRequestDto.getPassword(), signupRequestDto.getAddress(), signupRequestDto.getAuthorityToken()));
         assertThat(e.getMessage()).isEqualTo("유효한 토큰이 아닙니다.");
     }
 
@@ -68,7 +68,7 @@ public class SignupTest {
                 "경기도 하남시 미사강변동로 19",
                 null);
 
-        userService.signup(signupRequestDto1.getEmail(), signupRequestDto1.getNickname(), signupRequestDto1.getPassword(), signupRequestDto1.getAddress(), signupRequestDto1.getAuthorityToken());
+        userServiceImpl.signup(signupRequestDto1.getEmail(), signupRequestDto1.getNickname(), signupRequestDto1.getPassword(), signupRequestDto1.getAddress(), signupRequestDto1.getAuthorityToken());
 
         SignupRequestDto signupRequestDto = new SignupRequestDto(
                 "kudongku@gmail.com",
@@ -79,7 +79,7 @@ public class SignupTest {
 
         IllegalArgumentException e = assertThrows(
                 IllegalArgumentException.class,
-                () -> userService.signup(signupRequestDto.getEmail(), signupRequestDto.getNickname(), signupRequestDto.getPassword(), signupRequestDto.getAddress(), signupRequestDto.getAuthorityToken()));
+                () -> userServiceImpl.signup(signupRequestDto.getEmail(), signupRequestDto.getNickname(), signupRequestDto.getPassword(), signupRequestDto.getAddress(), signupRequestDto.getAuthorityToken()));
         assertThat(e.getMessage()).isEqualTo("이미 가입된 이메일입니다.");
     }
 
@@ -93,7 +93,7 @@ public class SignupTest {
                 "경기도 하남시 미사강변동로 19",
                 null);
 
-        userService.signup(signupRequestDto1.getEmail(), signupRequestDto1.getNickname(), signupRequestDto1.getPassword(), signupRequestDto1.getAddress(), signupRequestDto1.getAuthorityToken());
+        userServiceImpl.signup(signupRequestDto1.getEmail(), signupRequestDto1.getNickname(), signupRequestDto1.getPassword(), signupRequestDto1.getAddress(), signupRequestDto1.getAuthorityToken());
 
         SignupRequestDto signupRequestDto = new SignupRequestDto(
                 "kudongku2@gmail.com",
@@ -104,7 +104,7 @@ public class SignupTest {
 
         IllegalArgumentException e = assertThrows(
                 IllegalArgumentException.class,
-                () -> userService.signup(signupRequestDto.getEmail(), signupRequestDto.getNickname(), signupRequestDto.getPassword(), signupRequestDto.getAddress(), signupRequestDto.getAuthorityToken()));
+                () -> userServiceImpl.signup(signupRequestDto.getEmail(), signupRequestDto.getNickname(), signupRequestDto.getPassword(), signupRequestDto.getAddress(), signupRequestDto.getAuthorityToken()));
         assertThat(e.getMessage()).isEqualTo("이미 사용된 닉네임입니다.");
     }
 }

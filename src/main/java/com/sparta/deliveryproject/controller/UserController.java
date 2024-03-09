@@ -4,7 +4,7 @@ import com.sparta.deliveryproject.requestDto.ChangePasswordDto;
 import com.sparta.deliveryproject.requestDto.SignupRequestDto;
 import com.sparta.deliveryproject.responseDto.UserResponseDto;
 import com.sparta.deliveryproject.security.UserDetailsImpl;
-import com.sparta.deliveryproject.serviceImpl.UserService;
+import com.sparta.deliveryproject.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    private final UserService userService;
+    private final UserService userServiceImpl;
 
     @PostMapping("/public/users/signup")
     public void signup(@RequestBody @Valid SignupRequestDto requestDto, BindingResult bindingResult) {
@@ -39,24 +39,24 @@ public class UserController {
             throw new IllegalArgumentException("회원가입 정보 입력이 올바르지 않습니다." + sb);
         }
 
-        userService.signup(requestDto.getEmail(), requestDto.getNickname(), requestDto.getPassword(), requestDto.getAddress(), requestDto.getAuthorityToken());
+        userServiceImpl.signup(requestDto.getEmail(), requestDto.getNickname(), requestDto.getPassword(), requestDto.getAddress(), requestDto.getAuthorityToken());
     }
 
     @Secured("ROLE_ADMIN")
     @GetMapping("/users/admin")
     public ResponseEntity<List<UserResponseDto>> getUsers() {
-        List<UserResponseDto> userResponseDtoList = userService.getUsers();
+        List<UserResponseDto> userResponseDtoList = userServiceImpl.getUsers();
         return ResponseEntity.status(200).body(userResponseDtoList);
     }
 
     @Secured("ROLE_ADMIN")
     @DeleteMapping("/users/admin/{userId}")
     public void deleteUser(@PathVariable Long userId) {
-        userService.deleteUser(userId);
+        userServiceImpl.deleteUser(userId);
     }
 
     @PutMapping("/users/change-password")
     public void changePassword(@RequestBody ChangePasswordDto changePasswordDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        userService.changePassword(changePasswordDto, userDetails);
+        userServiceImpl.changePassword(changePasswordDto, userDetails);
     }
 }
