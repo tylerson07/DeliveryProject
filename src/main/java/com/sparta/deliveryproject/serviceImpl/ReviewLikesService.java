@@ -1,4 +1,4 @@
-package com.sparta.deliveryproject.service;
+package com.sparta.deliveryproject.serviceImpl;
 
 import com.sparta.deliveryproject.entity.Review;
 import com.sparta.deliveryproject.entity.ReviewLikes;

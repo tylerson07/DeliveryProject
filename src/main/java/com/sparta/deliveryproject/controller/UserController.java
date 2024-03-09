@@ -4,7 +4,7 @@ import com.sparta.deliveryproject.requestDto.ChangePasswordDto;
 import com.sparta.deliveryproject.requestDto.SignupRequestDto;
 import com.sparta.deliveryproject.responseDto.UserResponseDto;
 import com.sparta.deliveryproject.security.UserDetailsImpl;
-import com.sparta.deliveryproject.service.UserService;
+import com.sparta.deliveryproject.serviceImpl.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

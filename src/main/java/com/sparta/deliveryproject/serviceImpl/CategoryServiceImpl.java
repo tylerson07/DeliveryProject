@@ -1,9 +1,10 @@
-package com.sparta.deliveryproject.service;
+package com.sparta.deliveryproject.serviceImpl;
 
 import com.sparta.deliveryproject.requestDto.CategoryRequestDto;
 import com.sparta.deliveryproject.responseDto.CategoryResponseDto;
 import com.sparta.deliveryproject.entity.Category;
 import com.sparta.deliveryproject.repository.CategoryRepository;
+import com.sparta.deliveryproject.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

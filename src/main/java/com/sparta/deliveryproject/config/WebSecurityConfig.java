@@ -4,7 +4,7 @@ package com.sparta.deliveryproject.config;
 import com.sparta.deliveryproject.filter.JwtAuthenticationFilter;
 import com.sparta.deliveryproject.filter.JwtAuthorizationFilter;
 import com.sparta.deliveryproject.security.UserDetailsServiceImpl;
-import com.sparta.deliveryproject.service.JwtUtil;
+import com.sparta.deliveryproject.serviceImpl.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

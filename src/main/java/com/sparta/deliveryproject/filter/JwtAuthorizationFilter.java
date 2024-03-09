@@ -2,7 +2,7 @@ package com.sparta.deliveryproject.filter;
 
 
 import com.sparta.deliveryproject.security.UserDetailsServiceImpl;
-import com.sparta.deliveryproject.service.JwtUtil;
+import com.sparta.deliveryproject.serviceImpl.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

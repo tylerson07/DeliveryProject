@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.deliveryproject.requestDto.LoginRequestDto;
 import com.sparta.deliveryproject.entity.UserRoleEnum;
 import com.sparta.deliveryproject.security.UserDetailsImpl;
-import com.sparta.deliveryproject.service.JwtUtil;
+import com.sparta.deliveryproject.serviceImpl.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
