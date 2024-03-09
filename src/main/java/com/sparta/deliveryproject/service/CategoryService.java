@@ -1,7 +1,7 @@
 package com.sparta.deliveryproject.service;
 
-import com.sparta.deliveryproject.dto.CategoryRequestDto;
-import com.sparta.deliveryproject.dto.CategoryResponseDto;
+import com.sparta.deliveryproject.requestDto.CategoryRequestDto;
+import com.sparta.deliveryproject.responseDto.CategoryResponseDto;
 
 import java.util.List;
 

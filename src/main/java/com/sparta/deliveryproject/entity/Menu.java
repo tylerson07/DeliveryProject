@@ -1,6 +1,6 @@
 package com.sparta.deliveryproject.entity;
 
-import com.sparta.deliveryproject.dto.MenuRequestDto;
+import com.sparta.deliveryproject.requestDto.MenuRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

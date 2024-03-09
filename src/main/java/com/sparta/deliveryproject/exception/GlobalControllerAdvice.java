@@ -1,6 +1,6 @@
 package com.sparta.deliveryproject.exception;
 
-import com.sparta.deliveryproject.dto.CommonResponseDto;
+import com.sparta.deliveryproject.responseDto.CommonResponseDto;
 import org.hibernate.PropertyValueException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

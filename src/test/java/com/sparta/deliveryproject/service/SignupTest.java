@@ -1,6 +1,6 @@
 package com.sparta.deliveryproject.service;
 
-import com.sparta.deliveryproject.dto.SignupRequestDto;
+import com.sparta.deliveryproject.requestDto.SignupRequestDto;
 import com.sparta.deliveryproject.entity.User;
 import com.sparta.deliveryproject.entity.UserRoleEnum;
 import com.sparta.deliveryproject.repository.UserRepository;

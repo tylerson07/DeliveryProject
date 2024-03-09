@@ -1,6 +1,7 @@
 package com.sparta.deliveryproject.controller;
 
-import com.sparta.deliveryproject.dto.*;
+import com.sparta.deliveryproject.requestDto.MenuRequestDto;
+import com.sparta.deliveryproject.responseDto.*;
 import com.sparta.deliveryproject.exception.DuplicatedMenuException;
 import com.sparta.deliveryproject.security.UserDetailsImpl;
 import com.sparta.deliveryproject.service.MenuService;

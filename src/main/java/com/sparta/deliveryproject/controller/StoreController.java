@@ -1,7 +1,7 @@
 package com.sparta.deliveryproject.controller;
 
-import com.sparta.deliveryproject.dto.StoreRequestDto;
-import com.sparta.deliveryproject.dto.StoreResponseDto;
+import com.sparta.deliveryproject.requestDto.StoreRequestDto;
+import com.sparta.deliveryproject.responseDto.StoreResponseDto;
 import com.sparta.deliveryproject.security.UserDetailsImpl;
 import com.sparta.deliveryproject.service.StoreService;
 import lombok.RequiredArgsConstructor;

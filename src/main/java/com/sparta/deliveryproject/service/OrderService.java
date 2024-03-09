@@ -1,7 +1,7 @@
 package com.sparta.deliveryproject.service;
 
-import com.sparta.deliveryproject.dto.OrderRequestDto;
-import com.sparta.deliveryproject.dto.OrderResponseDto;
+import com.sparta.deliveryproject.requestDto.OrderRequestDto;
+import com.sparta.deliveryproject.responseDto.OrderResponseDto;
 import com.sparta.deliveryproject.entity.Menu;
 import com.sparta.deliveryproject.entity.Orders;
 import com.sparta.deliveryproject.entity.Store;

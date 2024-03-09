@@ -1,8 +1,8 @@
 package com.sparta.deliveryproject.controller;
 
-import com.sparta.deliveryproject.dto.ChangePasswordDto;
-import com.sparta.deliveryproject.dto.SignupRequestDto;
-import com.sparta.deliveryproject.dto.UserResponseDto;
+import com.sparta.deliveryproject.requestDto.ChangePasswordDto;
+import com.sparta.deliveryproject.requestDto.SignupRequestDto;
+import com.sparta.deliveryproject.responseDto.UserResponseDto;
 import com.sparta.deliveryproject.security.UserDetailsImpl;
 import com.sparta.deliveryproject.service.UserService;
 import jakarta.validation.Valid;

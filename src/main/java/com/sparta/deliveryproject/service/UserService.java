@@ -1,7 +1,7 @@
 package com.sparta.deliveryproject.service;
 
-import com.sparta.deliveryproject.dto.ChangePasswordDto;
-import com.sparta.deliveryproject.dto.UserResponseDto;
+import com.sparta.deliveryproject.requestDto.ChangePasswordDto;
+import com.sparta.deliveryproject.responseDto.UserResponseDto;
 import com.sparta.deliveryproject.entity.User;
 import com.sparta.deliveryproject.entity.UserRoleEnum;
 import com.sparta.deliveryproject.repository.UserRepository;

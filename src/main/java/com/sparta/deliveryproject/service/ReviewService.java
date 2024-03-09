@@ -1,8 +1,8 @@
 package com.sparta.deliveryproject.service;
 
-import com.sparta.deliveryproject.dto.ReviewListResponseDto;
-import com.sparta.deliveryproject.dto.ReviewRequestDto;
-import com.sparta.deliveryproject.dto.ReviewResponseDto;
+import com.sparta.deliveryproject.responseDto.ReviewListResponseDto;
+import com.sparta.deliveryproject.requestDto.ReviewRequestDto;
+import com.sparta.deliveryproject.responseDto.ReviewResponseDto;
 import com.sparta.deliveryproject.entity.Menu;
 import com.sparta.deliveryproject.entity.Review;
 import com.sparta.deliveryproject.entity.User;

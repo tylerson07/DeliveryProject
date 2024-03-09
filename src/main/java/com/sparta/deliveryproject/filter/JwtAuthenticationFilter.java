@@ -2,7 +2,7 @@ package com.sparta.deliveryproject.filter;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.deliveryproject.dto.LoginRequestDto;
+import com.sparta.deliveryproject.requestDto.LoginRequestDto;
 import com.sparta.deliveryproject.entity.UserRoleEnum;
 import com.sparta.deliveryproject.security.UserDetailsImpl;
 import com.sparta.deliveryproject.service.JwtUtil;
