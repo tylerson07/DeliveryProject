@@ -8,6 +8,7 @@ import com.sparta.deliveryproject.entity.User;
 import com.sparta.deliveryproject.repository.CategoryRepository;
 import com.sparta.deliveryproject.repository.MenuRepository;
 import com.sparta.deliveryproject.repository.StoreRepository;
+import com.sparta.deliveryproject.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,11 +19,12 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class StoreService {
+public class StoreServiceImpl implements StoreService {
     private final StoreRepository storeRepository;
     private final MenuRepository menuRepository;
     private final CategoryRepository categoryRepository;
 
+    @Override
     public List<StoreResponseDto> getStoreListByCategory(Long categoryId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(
                 () -> new NullPointerException("해당하는 카테고리가 없습니다.")
@@ -39,16 +41,19 @@ public class StoreService {
                 .toList();
     }
 
+    @Override
     public List<StoreResponseDto> getTopCountStoreList(User user) {
         List<Store> storeList = storeRepository.findAllByUserOrderByTotalSalesDesc(user);
         return substringList(storeList);
     }
 
+    @Override
     public List<StoreResponseDto> getTopSalesStoreList(User user) {
         List<Store> storeList = storeRepository.findAllByUserOrderByOrderCountDesc(user);
         return substringList(storeList);
     }
 
+    @Override
     @Transactional
     public void createStore(StoreRequestDto storeRequestDto, User user) {
         Category category = categoryRepository.findByName(storeRequestDto.getCategory()).orElseThrow(
@@ -59,6 +64,7 @@ public class StoreService {
         storeRepository.save(store);
     }
 
+    @Override
     @Transactional
     public void editStore(Long id, StoreRequestDto storeRequestDto, User userDetails) {
         Category category = categoryRepository.findByName(storeRequestDto.getCategory()).orElseThrow(
@@ -76,6 +82,7 @@ public class StoreService {
         store.edit(storeRequestDto, category);
     }
 
+    @Override
     @Transactional
     public void deleteStore(Long id, User userDetails) {
         Store store = storeRepository.findById(id).orElseThrow(

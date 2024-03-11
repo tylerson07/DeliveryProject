@@ -7,6 +7,7 @@ import com.sparta.deliveryproject.repository.ReviewLikesRepository;
 import com.sparta.deliveryproject.repository.ReviewRepository;
 import com.sparta.deliveryproject.repository.UserRepository;
 import com.sparta.deliveryproject.security.UserDetailsImpl;
+import com.sparta.deliveryproject.service.ReviewLikesService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,12 +17,13 @@ import java.util.NoSuchElementException;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class ReviewLikesService {
+public class ReviewLikesServiceImpl implements ReviewLikesService {
     private final ReviewRepository reviewRepository;
     private final ReviewLikesRepository reviewLikesRepository;
     private final UserRepository userRepository;
 
     // 리뷰 좋아요 등록
+    @Override
     public void likeReview(Long reviewId, UserDetailsImpl userDetails) {
         Long userId = userDetails.getUser().getUserID();
         User user = userRepository.findById(userId).orElseThrow();
@@ -38,6 +40,7 @@ public class ReviewLikesService {
     }
 
     // 리뷰 좋아요 삭제
+    @Override
     public void likeDeleteReview(Long reviewId, UserDetailsImpl userDetails) {
         Long userId = userDetails.getUser().getUserID();
         User user = userRepository.findById(userId).orElseThrow();
@@ -53,6 +56,7 @@ public class ReviewLikesService {
     }
 
     //리뷰 좋아요 갯수 출력
+    @Override
     public int getReviewLikesCount(Long reviewId) {
         return reviewLikesRepository.countByReview_Id(reviewId);
     }

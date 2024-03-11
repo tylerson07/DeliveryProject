@@ -1,9 +1,9 @@
 package com.sparta.deliveryproject.controller;
 
-import com.sparta.deliveryproject.responseDto.ReviewListResponseDto;
 import com.sparta.deliveryproject.requestDto.ReviewRequestDto;
+import com.sparta.deliveryproject.responseDto.ReviewListResponseDto;
 import com.sparta.deliveryproject.security.UserDetailsImpl;
-import com.sparta.deliveryproject.serviceImpl.ReviewService;
+import com.sparta.deliveryproject.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
