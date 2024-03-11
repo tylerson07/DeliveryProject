@@ -22,13 +22,13 @@ public class Category {
     @Column(nullable = false)
     private String introduce;
 
-    public Category(CategoryRequestDto categoryRequestDto) {
-        this.name = categoryRequestDto.getName();
-        this.introduce = categoryRequestDto.getIntroduce();
+    public Category(String name, String introduce) {
+        this.name = name;
+        this.introduce = introduce;
     }
 
-    public void update(CategoryRequestDto categoryRequestDto) {
-        this.name = categoryRequestDto.getName();
-        this.introduce = categoryRequestDto.getIntroduce();
+    public void update(String name, String introduce) {
+        this.name = name;
+        this.introduce = introduce;
     }
 }

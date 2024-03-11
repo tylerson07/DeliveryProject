@@ -33,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
             throw new NotValidCategoryException("동일한 카테고리가 존재합니다.");
         }
 
-        Category category = new Category(categoryRequestDto);
+        Category category = new Category(categoryRequestDto.getName(), categoryRequestDto.getIntroduce());
         categoryRepository.save(category);
     }
 
@@ -43,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
                ()->  new NullPointerException("해당 이름의 카테고리가 존재하지 않습니다.")
        );
 
-       category.update(categoryRequestDto);
+       category.update(categoryRequestDto.getName(), categoryRequestDto.getIntroduce());
     }
 
     @Override

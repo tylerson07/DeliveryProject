@@ -1,19 +1,18 @@
 package com.sparta.deliveryproject.serviceImpl;
 
-import com.sparta.deliveryproject.requestDto.StoreRequestDto;
-import com.sparta.deliveryproject.responseDto.StoreResponseDto;
 import com.sparta.deliveryproject.entity.Category;
 import com.sparta.deliveryproject.entity.Store;
 import com.sparta.deliveryproject.entity.User;
 import com.sparta.deliveryproject.repository.CategoryRepository;
 import com.sparta.deliveryproject.repository.MenuRepository;
 import com.sparta.deliveryproject.repository.StoreRepository;
+import com.sparta.deliveryproject.requestDto.StoreRequestDto;
+import com.sparta.deliveryproject.responseDto.StoreResponseDto;
 import com.sparta.deliveryproject.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,14 +42,12 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public List<StoreResponseDto> getTopCountStoreList(User user) {
-        List<Store> storeList = storeRepository.findAllByUserOrderByTotalSalesDesc(user);
-        return substringList(storeList);
+        return storeRepository.getTopCountStoreList(user);
     }
 
     @Override
     public List<StoreResponseDto> getTopSalesStoreList(User user) {
-        List<Store> storeList = storeRepository.findAllByUserOrderByOrderCountDesc(user);
-        return substringList(storeList);
+        return storeRepository.getTopSalesStoreList(user);
     }
 
     @Override
@@ -60,7 +57,7 @@ public class StoreServiceImpl implements StoreService {
                 () -> new NullPointerException("해당하는 카테고리가 없습니다.")
         );
 
-        Store store = new Store(storeRequestDto, category, user);
+        Store store = new Store(storeRequestDto.getName(), storeRequestDto.getAddress(), storeRequestDto.getIntroduce(), category, user);
         storeRepository.save(store);
     }
 
@@ -79,7 +76,7 @@ public class StoreServiceImpl implements StoreService {
             throw new IllegalArgumentException("매장을 수정할 수 있는 권한이 없습니다.");
         }
 
-        store.edit(storeRequestDto, category);
+        store.edit(storeRequestDto.getName(), storeRequestDto.getAddress(), storeRequestDto.getIntroduce(), category);
     }
 
     @Override
@@ -95,19 +92,5 @@ public class StoreServiceImpl implements StoreService {
 
         menuRepository.deleteAllByStore(store);
         storeRepository.delete(store);
-    }
-
-    private List<StoreResponseDto> substringList(List<Store> storeList) {
-        if (storeList.isEmpty()) {
-            throw new NullPointerException("해당 매장에 메뉴가 없습니다.");
-        } else if (storeList.size() <= 3) {
-            return storeList.stream().map(StoreResponseDto::new).toList();
-        } else {
-            List<StoreResponseDto> returnValue = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                returnValue.add(new StoreResponseDto(storeList.get(i)));
-            }
-            return returnValue;
-        }
     }
 }
