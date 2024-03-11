@@ -60,7 +60,7 @@ class StoreServiceImplTest {
         List<StoreResponseDto> stores =  service.getTopSalesStoreList(user);
         List<StoreResponseDto> stores2 =  service.getTopCountStoreList(user);
 
-        System.out.println(stores.toString());
+        System.out.println(stores.toString()+ stores2.toString());
     }
 
 }

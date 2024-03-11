@@ -1,20 +1,19 @@
 package com.sparta.deliveryproject.serviceImpl;
 
 
-import com.sparta.deliveryproject.requestDto.MenuRequestDto;
-import com.sparta.deliveryproject.responseDto.MenuResponseDto;
 import com.sparta.deliveryproject.entity.Menu;
 import com.sparta.deliveryproject.entity.Store;
 import com.sparta.deliveryproject.entity.User;
 import com.sparta.deliveryproject.exception.DuplicatedMenuException;
 import com.sparta.deliveryproject.repository.MenuRepository;
 import com.sparta.deliveryproject.repository.StoreRepository;
+import com.sparta.deliveryproject.requestDto.MenuRequestDto;
+import com.sparta.deliveryproject.responseDto.MenuResponseDto;
 import com.sparta.deliveryproject.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,21 +42,19 @@ public class MenuServiceImpl implements MenuService {
     @Override
     @Transactional(readOnly = true)
     public List<MenuResponseDto> getTopThreeSalesMenuListByStore(Long storeId) {
-        Store store = storeRepository.findById(storeId).orElseThrow(
-                () -> new NullPointerException("해당 id의 매장이 없습니다.")
-        );
-        List<Menu> menuList = menuRepository.findAllByStoreOrderBySalesCountDesc(store);
-        return substringList(menuList);
+        return menuRepository.getTopThreeSalesMenuListByStore(storeId)
+                .stream()
+                .map(MenuResponseDto::new)
+                .toList();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<MenuResponseDto> getTopThreeCountsMenuListByStore(Long storeId) {
-        Store store = storeRepository.findById(storeId).orElseThrow(
-                () -> new NullPointerException("해당 id의 매장이 없습니다.")
-        );
-        List<Menu> menuList = menuRepository.findAllByStoreOrderByTotalSalesDesc(store);
-        return substringList(menuList);
+        return menuRepository.getTopThreeCountsMenuListByStore(storeId)
+                .stream()
+                .map(MenuResponseDto::new)
+                .toList();
     }
 
     @Override
@@ -80,7 +77,7 @@ public class MenuServiceImpl implements MenuService {
 
         try {
             int priceInt = Integer.parseInt(menuRequestDto.getPrice());
-            Menu menu = new Menu(store, menuRequestDto, priceInt);
+            Menu menu = new Menu(store, menuRequestDto.getName(), priceInt, menuRequestDto.getIntroduce());
             menuRepository.save(menu);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("가격은 정수만 입력해주세요");
@@ -127,20 +124,6 @@ public class MenuServiceImpl implements MenuService {
             throw new IllegalArgumentException("메뉴를 생성할 수 있는 권한이 없습니다.");
         }
         menuRepository.delete(menu);
-    }
-
-    private List<MenuResponseDto> substringList(List<Menu> menuList) {
-        if (menuList.isEmpty()) {
-            throw new NullPointerException("해당 매장에 메뉴가 없습니다.");
-        } else if (menuList.size() <= 3) {
-            return menuList.stream().map(MenuResponseDto::new).toList();
-        } else {
-            List<MenuResponseDto> returnValue = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                returnValue.add(new MenuResponseDto(menuList.get(i)));
-            }
-            return returnValue;
-        }
     }
 
     private Menu getMenuById(Long menuId) {

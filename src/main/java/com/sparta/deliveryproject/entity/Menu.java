@@ -36,11 +36,11 @@ public class Menu {
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
 
-    public Menu(Store store, MenuRequestDto menuRequestDto, int priceInt) {
+    public Menu(Store store, String name, int priceInt, String introduce) {
         this.store = store;
-        this.name = menuRequestDto.getName();
+        this.name = name;
         this.price = priceInt;
-        this.introduce = menuRequestDto.getIntroduce();
+        this.introduce = introduce;
     }
 
     public void update(MenuRequestDto menuRequestDto, int priceInt) {
