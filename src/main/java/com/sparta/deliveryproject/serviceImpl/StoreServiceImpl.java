@@ -42,12 +42,18 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public List<StoreResponseDto> getTopCountStoreList(User user) {
-        return storeRepository.getTopCountStoreList(user);
+        return storeRepository.getTopCountStoreList(user)
+                .stream()
+                .map(StoreResponseDto::new)
+                .toList();
     }
 
     @Override
     public List<StoreResponseDto> getTopSalesStoreList(User user) {
-        return storeRepository.getTopSalesStoreList(user);
+        return storeRepository.getTopSalesStoreList(user)
+                .stream()
+                .map(StoreResponseDto::new)
+                .toList();
     }
 
     @Override
