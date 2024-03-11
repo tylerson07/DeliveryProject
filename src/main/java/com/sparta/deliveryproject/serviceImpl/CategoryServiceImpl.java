@@ -1,5 +1,6 @@
 package com.sparta.deliveryproject.serviceImpl;
 
+import com.sparta.deliveryproject.exception.NotValidCategoryException;
 import com.sparta.deliveryproject.requestDto.CategoryRequestDto;
 import com.sparta.deliveryproject.responseDto.CategoryResponseDto;
 import com.sparta.deliveryproject.entity.Category;
@@ -29,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void createCategory(CategoryRequestDto categoryRequestDto) {
         if( categoryRepository.findByName(categoryRequestDto.getName()).isPresent()){
-            throw new IllegalArgumentException("동일한 카테고리가 존재합니다.");
+            throw new NotValidCategoryException("동일한 카테고리가 존재합니다.");
         }
 
         Category category = new Category(categoryRequestDto);
@@ -48,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteCategory(Long category_id) {
         Category category = categoryRepository.findById(category_id).orElseThrow(
-                ()->  new NullPointerException("해당 이름의 카테고리가 존재하지 않습니다.")
+                ()->  new NotValidCategoryException("해당 이름의 카테고리가 존재하지 않습니다.")
         );
         categoryRepository.delete(category);
     }
