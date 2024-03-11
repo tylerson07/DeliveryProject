@@ -41,7 +41,7 @@ public class User implements UserDetails {
     private UserRoleEnum role;
 
     public User(String email, String nickname, String encodedPassword, String address, UserRoleEnum userRoleEnum) {
-        this.email=email;
+        this.email = email;
         this.nickname = nickname;
         this.password = encodedPassword;
         this.address = address;

@@ -50,7 +50,7 @@ public class UseTimeAop {
                     apiUseTime.addUseTime(runTime);
                 }
 
-                log.info("[API Use Time] Username: " + loginUser.getUsername() + ", Total Time: " + apiUseTime.getTotalTime() + " ms");
+                log.info("[API Use Time] Username: " + loginUser.getNickname() + ", Total Time: " + apiUseTime.getTotalTime() + " ms");
                 apiUseTimeRepository.save(apiUseTime);
             }
 
