@@ -71,8 +71,8 @@ class StoreServiceImplTest {
 
         Category category = new Category("Chinese", "중국집");
         categoryRepository.save(category);
-        Category falseCategiry = new Category("1234", "1234");
-        categoryRepository.save(falseCategiry);
+        Category falseCategory = new Category("1234", "1234");
+        categoryRepository.save(falseCategory);
 
         Store store1 = new Store("시옌1", "경기도 화성시", "중국음식점", category, user);
         Store store2 = new Store("시옌2", "경기도 화성시", "중국음식점", category, user);
@@ -84,12 +84,11 @@ class StoreServiceImplTest {
         Store store8 = new Store("시옌8", "경기도 화성시", "중국음식점", category, user);
         Store store9 = new Store("시옌9", "경기도 화성시", "중국음식점", category, user);
         Store store0 = new Store("시옌0", "경기도 화성시", "중국음식점", category, user);
-        Store falseStore = new Store("1234", "경기도 화성시", "중국음식점", falseCategiry, user);
+        Store falseStore = new Store("1234", "경기도 화성시", "중국음식점", falseCategory, user);
         storeRepository.saveAll(List.of(store0,store1, store2, store3, store4, store5, store6, store6, store7, store8, store9, falseStore));
 
         // when
-        var stores = service.getStoreListByCategory(category.getId(), 2, 3, "id", true);
-        System.out.println(stores);
+        service.getStoreListByCategory(category.getId(), 2, 3, "id", true);
     }
 
 }
