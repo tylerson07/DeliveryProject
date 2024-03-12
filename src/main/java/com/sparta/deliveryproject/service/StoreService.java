@@ -7,7 +7,7 @@ import com.sparta.deliveryproject.responseDto.StoreResponseDto;
 import java.util.List;
 
 public interface StoreService {
-    List<StoreResponseDto> getStoreListByCategory(Long categoryId);
+    List<StoreResponseDto> getStoreListByCategory(Long categoryId, int page, int size, String sortBy, Boolean isAsc);
     List<StoreResponseDto> getTopCountStoreList(User user);
     List<StoreResponseDto> getTopSalesStoreList(User user);
     void createStore(StoreRequestDto storeRequestDto, User user);

@@ -10,6 +10,10 @@ import com.sparta.deliveryproject.requestDto.StoreRequestDto;
 import com.sparta.deliveryproject.responseDto.StoreResponseDto;
 import com.sparta.deliveryproject.service.StoreService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,12 +28,15 @@ public class StoreServiceImpl implements StoreService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public List<StoreResponseDto> getStoreListByCategory(Long categoryId) {
+    public List<StoreResponseDto> getStoreListByCategory(Long categoryId, int page, int size, String sortBy, Boolean isAsc) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(
                 () -> new NullPointerException("해당하는 카테고리가 없습니다.")
         );
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
 
-        List<Store> storeList = storeRepository.findAllByCategory(category);
+        Page<Store> storeList = storeRepository.findAllByCategory(category, pageable);
 
         if (storeList.isEmpty()) {
             throw new IllegalArgumentException(category + "에 속하는 식당이 없습니다.");

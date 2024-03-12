@@ -21,8 +21,14 @@ public class StoreController {
 
     // 카테고리별 메장 조회
     @GetMapping("/public/stores/category/{categoryId}")
-    public ResponseEntity<List<StoreResponseDto>> getStoreListByCategory(@PathVariable Long categoryId) {
-        List<StoreResponseDto> storeList = storeService.getStoreListByCategory(categoryId);
+    public ResponseEntity<List<StoreResponseDto>> getStoreListByCategory(
+            @PathVariable Long categoryId,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("sortBy") String sortBy,
+            @RequestParam("isAsc") Boolean isAsc
+    ) {
+        List<StoreResponseDto> storeList = storeService.getStoreListByCategory(categoryId, page, size, sortBy, isAsc);
         return ResponseEntity.status(200).body(storeList);
     }
 
