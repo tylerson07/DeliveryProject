@@ -91,4 +91,37 @@ class StoreServiceImplTest {
         service.getStoreListByCategory(category.getId(), 2, 3, "id", true);
     }
 
+    @Test
+    void dynamicInsertTest() {
+        //given
+        User user = new User("kudongku@gmail.com", "kudongku", "1234", "경기도 하남시", UserRoleEnum.ENTRE);
+        userRepository.save(user);
+
+        Category category = new Category("Chinese", "중국집");
+        categoryRepository.save(category);
+
+        Store store1 = new Store("시옌", "경기도 화성시", "중국음식점", category, user);
+        Store store2 = new Store("시옌2", "경기도 화2성시", "중국음2식점", category, user);
+        Store store3 = new Store("시옌3", "경기도3 화성시", "중국3음식점", category, user);
+
+        storeRepository.save(store1);
+        storeRepository.save(store2);
+        storeRepository.save(store3);
+    }
+    @Test
+    void dynamicUpdateTest() {
+        //given
+        User user = new User("kudongku@gmail.com", "kudongku", "1234", "경기도 하남시", UserRoleEnum.ENTRE);
+        userRepository.save(user);
+
+        Category category = new Category("Chinese", "중국집");
+        categoryRepository.save(category);
+
+        Store store1 = new Store("시옌", "경기도 화성시", "중국음식점", category, user);
+        storeRepository.save(store1);
+
+        store1.edit("1","2","3",category);
+        storeRepository.save(store1);
+    }
+
 }
