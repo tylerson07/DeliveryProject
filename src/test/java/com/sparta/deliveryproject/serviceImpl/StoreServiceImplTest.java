@@ -7,10 +7,12 @@ import com.sparta.deliveryproject.entity.UserRoleEnum;
 import com.sparta.deliveryproject.repository.CategoryRepository;
 import com.sparta.deliveryproject.repository.StoreRepository;
 import com.sparta.deliveryproject.repository.UserRepository;
+import com.sparta.deliveryproject.responseDto.StoreProjection;
 import com.sparta.deliveryproject.responseDto.StoreResponseDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -88,7 +90,16 @@ class StoreServiceImplTest {
         storeRepository.saveAll(List.of(store0,store1, store2, store3, store4, store5, store6, store6, store7, store8, store9, falseStore));
 
         // when
-        service.getStoreListByCategory(category.getId(), 2, 3, "id", true);
+        Page<StoreProjection> stores = service.getStoreListByCategory(category.getId(), 2, 3, "id", true);
+
+        for(StoreProjection sp : stores){
+            System.out.println("---------------------");
+            System.out.println(sp.getId());
+            System.out.println(sp.getName());
+            System.out.println(sp.getIntroduce());
+        }
+
+        assert !stores.isEmpty();
     }
 
     @Test
