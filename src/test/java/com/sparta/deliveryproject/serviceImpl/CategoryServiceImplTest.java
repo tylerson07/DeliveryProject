@@ -3,6 +3,7 @@ package com.sparta.deliveryproject.serviceImpl;
 import com.sparta.deliveryproject.entity.Category;
 import com.sparta.deliveryproject.repository.CategoryRepository;
 import com.sparta.deliveryproject.requestDto.CategoryRequestDto;
+import com.sparta.deliveryproject.responseDto.CategoryResponseDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -28,7 +29,7 @@ class CategoryServiceImplTest {
 
         given(categoryRepository.findAll()).willReturn(List.of(category, category2));
 
-        var categories = categoryService.getCategoryList();
+        List<CategoryResponseDto> categories = categoryService.getCategoryList();
 
         assert (categories.size() == 2);
     }

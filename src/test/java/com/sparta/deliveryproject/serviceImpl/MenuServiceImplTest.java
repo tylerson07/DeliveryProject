@@ -5,6 +5,7 @@ import com.sparta.deliveryproject.repository.CategoryRepository;
 import com.sparta.deliveryproject.repository.MenuRepository;
 import com.sparta.deliveryproject.repository.StoreRepository;
 import com.sparta.deliveryproject.repository.UserRepository;
+import com.sparta.deliveryproject.responseDto.MenuResponseDto;
 import com.sparta.deliveryproject.service.MenuService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,6 @@ class MenuServiceImplTest {
         Menu menu6 = new Menu(store1, "짜장3면6", 350033, "맛있는 짜3장");
         menuRepository.saveAll(List.of(menu, menu2, menu3, menu4, menu5, menu6));
 
-        var stores = menuService.getMenuListByStore(store1.getId(),2,4,"id", true);
+        List<MenuResponseDto> stores = menuService.getMenuListByStore(store1.getId(),2,4,"id", true);
     }
 }

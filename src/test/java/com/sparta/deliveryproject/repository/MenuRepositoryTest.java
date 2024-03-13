@@ -1,6 +1,8 @@
 package com.sparta.deliveryproject.repository;
 
 import com.sparta.deliveryproject.config.JPAConfiguration;
+import com.sparta.deliveryproject.entity.Menu;
+import com.sparta.deliveryproject.entity.Store;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -11,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @DataJpaTest
 @Transactional
@@ -27,39 +31,39 @@ class MenuRepositoryTest {
 
     @Test
     void findAllByStoreTest() {
-        var store = storeRepository.findById(13L).orElse(null);
+        Store store = storeRepository.findById(13L).orElse(null);
         assert store != null;
 
         Sort.Direction direction = Sort.Direction.ASC;
         Sort sort = Sort.by(direction, "salesCount");
         Pageable pageable = PageRequest.of(1, 2, sort);
 
-        var stores = menuRepository.findAllByStore(store, pageable);
+        List<Menu> stores = menuRepository.findAllByStore(store, pageable);
         assert !stores.isEmpty();
     }
 
     @Test
     void findAllByStoreTest2() {
-        var store = storeRepository.findById(13L).orElse(null);
+        Store store = storeRepository.findById(13L).orElse(null);
         assert store != null;
 
-        var stores = menuRepository.findAllByStore(store);
+        List<Menu> stores = menuRepository.findAllByStore(store);
         assert !stores.isEmpty();
     }
 
     @Test
     void getTopThreeSalesMenuListByStoreTest() {
-        var store = storeRepository.findById(13L).orElse(null);
+        Store store = storeRepository.findById(13L).orElse(null);
         assert store != null;
-        var menus = menuRepository.getTopThreeSalesMenuListByStore(store.getId());
+        List<Menu> menus = menuRepository.getTopThreeSalesMenuListByStore(store.getId());
         assert !menus.isEmpty();
     }
 
     @Test
     void getTopThreeCountsMenuListByStoreTest() {
-        var store = storeRepository.findById(13L).orElse(null);
+        Store store = storeRepository.findById(13L).orElse(null);
         assert store != null;
-        var menus = menuRepository.getTopThreeCountsMenuListByStore(store.getId());
+        List<Menu> menus = menuRepository.getTopThreeCountsMenuListByStore(store.getId());
         assert !menus.isEmpty();
     }
 }
