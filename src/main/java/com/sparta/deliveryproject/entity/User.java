@@ -2,10 +2,15 @@ package com.sparta.deliveryproject.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -13,24 +18,23 @@ import java.util.Collection;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name ="users")
 public class User implements UserDetails {
 
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long userID;
-
-    @Column(nullable = false)
-    private String email;
-
-    @Column(nullable = false)
-    private String nickname;
-
-    @Column(nullable = false)
+    @Column
+    private String username;
+    @Column
     private String password;
-
-    @Column(nullable = false)
+    @Column
     private String address;
+    @Column
+    private Long orderCount = 0L;
+    @Column
+    private Long totalSpent = 0L;
 
     @Column
     @Enumerated(value = EnumType.STRING)
@@ -40,45 +44,59 @@ public class User implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
-    public User(String email, String nickname, String encodedPassword, String address, UserRoleEnum userRoleEnum) {
-        this.email = email;
-        this.nickname = nickname;
-        this.password = encodedPassword;
+    public User(String username,String password,String address,UserRoleEnum role){
+        this.username = username;
+        this.password = password;
         this.address = address;
-        this.role = userRoleEnum;
+        this.role = role;
     }
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
-    public void updatePassword(String encodedPassword) {
-        this.password = encodedPassword;
+
+    public void incrementSales(Long totalPrice) {
+        this.orderCount++;
+        this.totalSpent += totalPrice;
+        updateUserRank();
+    }
+
+    private void updateUserRank() {
+        if(this.orderCount >= 30 || this.totalSpent >= 300000){
+            this.grade = UserRankEnum.VVIP;
+        }else if(this.orderCount >= 10 || this.totalSpent >= 100000){
+            this.grade = UserRankEnum.VIP;
+        }else{
+            this.grade = UserRankEnum.COMMON;
+        }
+    }
+
+    public void changePassword(String password){
+        this.password = password;
+
     }
 }
