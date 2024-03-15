@@ -1,19 +1,16 @@
 package com.sparta.deliveryproject.entity;
 
+import com.sparta.deliveryproject.dto.StoreRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 
 @Entity // JPA가 관리할 수 있는 Entity 클래스 지정
 @Getter
 @Setter
 @Table(name = "store") // 매핑할 테이블의 이름을 지정
 @NoArgsConstructor
-@DynamicInsert
-@DynamicUpdate
 public class Store {
 
     @Id
@@ -37,29 +34,36 @@ public class Store {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    private Long orderCount;
+    @Column(nullable = false)
+    private Long orderCount = 0L;
 
-    private Long totalSales;
+    @Column(nullable = false)
+    private Long totalSales = 0L;
 
-    public Store(String name, String address, String introduce, Category category, User user) {
-        this.name = name;
-        this.address = address;
-        this.introduce = introduce;
+
+    public Store(StoreRequestDto storeRequestDto, Category category) {
+        this.name = storeRequestDto.getName();
+        this.address = storeRequestDto.getAddress();
+        this.introduce = storeRequestDto.getIntroduce();
+        this.category = category;
+    }
+
+    public Store(StoreRequestDto storeRequestDto, Category category, User user) {
+        this.name = storeRequestDto.getName();
+        this.address = storeRequestDto.getAddress();
+        this.introduce = storeRequestDto.getIntroduce();
         this.category = category;
         this.user = user;
     }
 
-    public void edit(String name, String address, String introduce, Category category) {
-        this.name = name;
-        this.address = address;
-        this.introduce = introduce;
+    public void edit(StoreRequestDto storeRequestDto, Category category) {
+        this.name = storeRequestDto.getName();
+        this.address = storeRequestDto.getAddress();
+        this.introduce = storeRequestDto.getIntroduce();
         this.category = category;
     }
-
-    public void incrementSales(Long totalPrice) {
-        if(orderCount==null) orderCount = 0L;
-        if(totalSales==null) totalSales = 0L;
-        this.orderCount++;
+    public void incrementSales(Long totalPrice){
+        this.orderCount ++;
         this.totalSales += totalPrice;
     }
 }

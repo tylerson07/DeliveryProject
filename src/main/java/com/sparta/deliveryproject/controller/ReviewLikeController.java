@@ -1,5 +1,6 @@
 package com.sparta.deliveryproject.controller;
 
+import com.sparta.deliveryproject.dto.CommonResponseDto;
 import com.sparta.deliveryproject.security.UserDetailsImpl;
 import com.sparta.deliveryproject.service.ReviewLikesService;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +17,16 @@ public class ReviewLikeController {
 
     //리뷰 좋아요 등록
     @PostMapping()
-    public void likeReview(@PathVariable Long reviewId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<CommonResponseDto> likeReview(@PathVariable Long reviewId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         reviewLikesService.likeReview(reviewId, userDetails);
+        return ResponseEntity.status(200).body(new CommonResponseDto(200, "리뷰 좋아요 등록 성공"));
     }
 
     //리뷰 좋아요 취소
     @DeleteMapping()
-    public void likeDeleteReview(@PathVariable Long reviewId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<CommonResponseDto> likeDeleteReview(@PathVariable Long reviewId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         reviewLikesService.likeDeleteReview(reviewId, userDetails);
+        return ResponseEntity.status(200).body(new CommonResponseDto(200, "리뷰 좋아요 취소"));
     }
 
     //해당 리뷰 좋아요 갯수
@@ -31,6 +34,7 @@ public class ReviewLikeController {
     public ResponseEntity<Integer> getReviewLikesCount(@PathVariable Long reviewId) {
         int reviewLikesCount = reviewLikesService.getReviewLikesCount(reviewId);
         return ResponseEntity.status(200).body(reviewLikesCount);
+
     }
 
 }
